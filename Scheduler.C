@@ -24,10 +24,6 @@ void Scheduler::yield()
    }
    else
    {
-       //printQueue();
-       //if (tempcount == 8)
-       //    while(true);
-       tempcount++;
        Thread *ready_thread = ready_Queue[front_index];
        if(ready_thread != NULL)
        {

@@ -20,9 +20,9 @@
 
 #define MB * (0x1 << 20)
 #define KB * (0x1 << 10)
-#define SYSTEM_DISK_SIZE ((10 MB)) 
+#define MAX_DISK_SIZE ((10 MB)) 
 #define BLOCK_SIZE 512
-#define MAX_NUMBER_OF_BLOCKS ( (SYSTEM_DISK_SIZE) / (BLOCK_SIZE) )
+#define MAX_NUMBER_OF_BLOCKS ( (MAX_DISK_SIZE) / (BLOCK_SIZE) )
 
 #define IS_SET(var, pos) ((var) & (1<<(pos)))
 #define SET_BIT(var, pos) ((var) |= (1<<(pos)))
@@ -44,13 +44,6 @@ typedef struct INode
     unsigned int file_id;
     unsigned int file_size;
     unsigned int block_no[10];
-    /*
-     * Indicates INode type.
-     * 0-Directory
-     * 1-File.
-     * Always 1 in our case
-     */
-    unsigned int type; 
     unsigned int number_of_blocks_used;
 }INode_T;
 
@@ -65,13 +58,18 @@ class FileSystem;
 /*--------------------------------------------------------------------------*/
 
 class File {
+    friend class FileSystem;
 private: 
      /* -- DEFINE YOUR FILE DATA STRUCTURES HERE. */
      
      unsigned int current_position;
+     unsigned long starting_block;
+     unsigned long current_block;
+     unsigned int  current_block_index;
+     unsigned int * file_blocks;
      unsigned int file_size;
      FileSystem   * file_system;
-
+     char cached_block[BLOCK_SIZE];
      unsigned int   file_id;
 
      /* -- You may want to store other information, such as 
@@ -108,6 +106,8 @@ public:
     BOOLEAN EoF();
     /* Is the current location for the file at the end of the file? */
 
+    /* Helper functions */
+    void PrintFileAttributes();
 
 };
 
@@ -117,18 +117,18 @@ public:
 
 class FileSystem {
 
-friend class File;
+    friend class File;
 
 private:
      /* -- DEFINE YOUR FILE SYSTEM DATA STRUCTURES HERE. */
      
-     SimpleDisk * disk;
-     unsigned int size;
-     BOOLEAN is_mounted;
-     unsigned long * free_block_map;
-     unsigned long number_of_blocks;
-     unsigned long number_of_inodes;
-     unsigned long inode_mgmt_blocks;
+     static SimpleDisk * disk;
+     static unsigned int size;
+     static BOOLEAN is_mounted;
+     static unsigned long * free_block_map;
+     static unsigned long number_of_blocks;
+     static unsigned long number_of_inodes;
+     static unsigned long inode_mgmt_blocks;
      
 public:
 
@@ -156,8 +156,13 @@ public:
    /* Delete file with given id in the file system and free any disk block
       occupied by the file. */
 
-   /* Helper function */
+   /* Helper functions */
    unsigned long GetFreeBlockNumber();
+   void ReleaseBlock(unsigned long block_no);
+
+   // Returns the array with the block numbers of the file if the file is found
+   // Returns NULL otherwise
+   unsigned int* GetFileBlocks(int _file_id);
    
 };
 #endif

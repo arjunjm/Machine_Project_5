@@ -30,37 +30,23 @@ BlockingDisk::BlockingDisk(DISK_ID disk_id, unsigned int size) : SimpleDisk(disk
 void BlockingDisk::read(unsigned long block_no, char * buffer)
 {
     issue_operation(READ, block_no);
-    if (!is_device_ready())
-    {
-        Thread * current_thread = Thread::CurrentThread();
-        push(current_thread, READ, block_no, buffer);
+    Thread * current_thread = Thread::CurrentThread();
+    push(current_thread, READ, block_no, buffer);
 
-        // Pass on CPU
-        SYSTEM_SCHEDULER->resume(current_thread);
-        SYSTEM_SCHEDULER->yield();
-    }
-    else
-    {
-        read_from_port(block_no, buffer);
-    }
+    // Pass on CPU
+    SYSTEM_SCHEDULER->resume(current_thread);
+    SYSTEM_SCHEDULER->yield();
 }
 
 void BlockingDisk::write(unsigned long block_no, char * buffer)
 {
     issue_operation(WRITE, block_no);
-    if(!is_device_ready())
-    {
     Thread * current_thread = Thread::CurrentThread();
     push(current_thread, WRITE, block_no, buffer);
 
     // Pass on CPU
     SYSTEM_SCHEDULER->resume(current_thread);
     SYSTEM_SCHEDULER->yield();
-    }
-    else
-    {
-        write_to_port(block_no, buffer);
-    }
 }
 
 void BlockingDisk::read_from_port(unsigned long block_no, char * _buf)
@@ -120,7 +106,7 @@ void BlockingDisk::pop()
 {
     if (thread_count == 0)
     {
-        Console::puts("No blocked thread in queue \n");
+        //Console::puts("No blocked thread in queue \n");
         return;
     }
     thread_queue[front_index] = NULL;

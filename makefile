@@ -52,6 +52,9 @@ simple_disk.o: simple_disk.C simple_disk.H
 blocking_disk.o: blocking_disk.C blocking_disk.H
 	$(CPP) $(CPP_OPTIONS) -c -o blocking_disk.o blocking_disk.C
 
+file_system.o: file_system.C file_system.H
+	$(CPP) $(CPP_OPTIONS) -c -o file_system.o file_system.C
+
 # ==== MEMORY =====
 
 frame_pool.o: frame_pool.C frame_pool.H 
@@ -77,7 +80,7 @@ kernel.o: kernel.C console.H simple_timer.H
 	$(CPP) $(CPP_OPTIONS) -c -o kernel.o kernel.C
 
 kernel.bin: start.o utils.o kernel.o assert.o console.o gdt.o idt.o irq.o machine.o exceptions.o interrupts.o \
-   simple_timer.o simple_disk.o frame_pool.o threads_low.o thread.o Scheduler.o mem_pool.o blocking_disk.o
+   simple_timer.o simple_disk.o frame_pool.o threads_low.o thread.o Scheduler.o mem_pool.o blocking_disk.o file_system.o
 	ld -melf_i386 -T linker.ld -o kernel.bin start.o utils.o kernel.o assert.o console.o gdt.o idt.o \
-   exceptions.o irq.o machine.o interrupts.o simple_timer.o simple_disk.o frame_pool.o threads_low.o thread.o Scheduler.o mem_pool.o blocking_disk.o
+   exceptions.o irq.o machine.o interrupts.o simple_timer.o simple_disk.o frame_pool.o threads_low.o thread.o Scheduler.o mem_pool.o blocking_disk.o file_system.o
 	

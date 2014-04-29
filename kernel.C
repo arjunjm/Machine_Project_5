@@ -33,7 +33,7 @@
    Leave the macro undefined if you don't want to exercise the disk code.
 */
 
-//#define _USES_FILESYSTEM_
+#define _USES_FILESYSTEM_
 /* This macro is defined when we want to exercise file-system code.
    If defined, the system defines a file system, and Thread 3 issues 
    issues operations to it.
@@ -100,7 +100,8 @@ Scheduler * SYSTEM_SCHEDULER;
 #ifdef _USES_DISK_
 
 /* -- A POINTER TO THE SYSTEM DISK */
-BlockingDisk * SYSTEM_DISK;
+//BlockingDisk * SYSTEM_DISK;
+SimpleDisk * SYSTEM_DISK;
 
 #define SYSTEM_DISK_SIZE 10485760
 
@@ -153,7 +154,7 @@ int rand() {
   unsigned long dummy_sec;
   int           dummy_tic;
 
-  SimpleTimer::current(dummy_sec, dummy_tic);
+  //SimpleTimer::current(dummy_sec, dummy_tic);
 
   return dummy_tic;
 }
@@ -161,6 +162,85 @@ int rand() {
 void exercise_file_system(FileSystem * _file_system, SimpleDisk * _simple_disk) {
   /* NOTHING FOR NOW. 
      FEEL FREE TO ADD YOUR OWN CODE. */
+    Console::puts("Initializing file system\n");
+    FileSystem *fs = _file_system;
+    SimpleDisk *disk = _simple_disk;
+
+    char temp_buffer[205];
+    char buf1[500];
+    int written_char;
+    temp_buffer[0] = 'A';
+    temp_buffer[1] = 'r';
+    temp_buffer[2] = 'J';
+    temp_buffer[3] = 'U';
+    for (int i = 4; i < 200; i++)
+        temp_buffer[i] = '*';
+
+    unsigned int fs_size = BLOCK_SIZE * 1000;
+    if (fs->Mount(disk) == TRUE)
+    {
+        Console::puts("Mount successful\n");
+    }
+    else
+    {
+        Console::puts("Mount unsuccessful\n");
+    }
+    
+    if (fs->Format(disk, fs_size) == TRUE)
+    {
+        Console::puts("Format successful\n");
+    }    
+    else
+    {
+        Console::puts("Format unsuccessful\n");
+    }
+
+    if(fs->CreateFile(1) == TRUE)
+    {
+        Console::puts("File 1 created successfully\n");
+    }
+
+    File f1 = File();
+    if(fs->LookupFile(1, &f1) == TRUE)
+    {
+        Console::puts("File lookup for file 1 successful\n");
+    }
+    else
+    {
+        Console::puts("File lookup for file 1 failed\n");
+    }
+    Console::puts("Going to write\n");
+    written_char = f1.Write(100, temp_buffer);
+
+    Console::puts("Wrote ");
+    Console::puti(written_char);
+    Console::puts(" characters into the disk\n");
+
+    int read_char = f1.Read(300, buf1);
+    Console::puts("Read ");
+    Console::puti(read_char);
+    Console::puts(" characters\n");
+    Console::puts("...Read data = ");
+    for(int i = 0; i < 100; i++)
+    {
+        Console::putch(buf1[i]);
+    }
+
+    temp_buffer[0] = 'C';
+    f1.Write(100, temp_buffer);
+    f1.Reset();
+    read_char = f1.Read(300, buf1);
+    Console::puts("\nRead ");
+    Console::puti(read_char);
+    Console::puts(" characters\n");
+    Console::puts("...Read data = ");
+    for(int i = 0; i < 200; i++)
+    {
+        Console::putch(buf1[i]);
+    }
+
+
+    for(;;);
 }
 
 #endif
@@ -224,9 +304,8 @@ void fun2() {
 
        for (int k = 0; k < 512; k++)
        {
-           buf[k] = 'N' + k % 20;
+           buf[k] = 'A' + k % 20;
        }
-
 #ifndef _USES_FILESYSTEM_
        /* -- Write -- ONLY IF THERE IS NO FILE SYSTEM BEING EXERCISED! */
        /*             Running this piece of code on a disk with a      */
@@ -260,7 +339,7 @@ void fun3() {
 
 #ifdef _USES_FILESYSTEM_
 
-    exercise_file_system(FILE_SYSTEM);
+    exercise_file_system(FILE_SYSTEM, SYSTEM_DISK);
 
 #else
 
@@ -271,10 +350,10 @@ void fun3() {
        for (int i = 0; i < 10; i++) {
 	  Console::puts("FUN 3: TICK ["); Console::puti(i); Console::puts("]\n");
        }
-    
+     } 
 #endif
        pass_on_CPU(thread4);
-    }
+     //}
 }
 
 void fun4() {
@@ -385,7 +464,8 @@ int main() {
 
     /* -- DISK DEVICE -- IF YOU HAVE ONE -- */
 
-    BlockingDisk system_disk = BlockingDisk(MASTER, SYSTEM_DISK_SIZE);
+    //BlockingDisk system_disk = BlockingDisk(MASTER, SYSTEM_DISK_SIZE);
+    SimpleDisk system_disk = SimpleDisk(MASTER, SYSTEM_DISK_SIZE);
     SYSTEM_DISK = &system_disk;
 
 #endif

@@ -75,7 +75,6 @@ void SimpleDisk::read(unsigned long _block_no, char * _buf) {
 /* Reads 512 Bytes in the given block of the given disk drive and copies them 
    to the given buffer. No error check! */
 
-  Console::puts("Simple Disk read\n");
   issue_operation(READ, _block_no);
 
   wait_until_ready();
@@ -92,7 +91,7 @@ void SimpleDisk::read(unsigned long _block_no, char * _buf) {
 
 void SimpleDisk::write(unsigned long _block_no, char * _buf) {
 /* Writes 512 Bytes from the buffer to the given block on the given disk drive. */
-  Console::puts("Simple disk write\n");
+  //Console::puts("Simple disk write\n");
   issue_operation(WRITE, _block_no);
 
   wait_until_ready();
