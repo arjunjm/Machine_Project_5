@@ -1,20 +1,6 @@
 #include "file_system.H"
 #include "console.H"
 
-/* 
- * Helper to print a block
- */
-
-void printBlock(char *buffer)
-{
-    for(int i = 0; i < 512; i++)
-    {
-        Console::putch(buffer[i]);
-    }
-    Console::puts("\n");
-}
-
-
 /*
  * File class function definitions
  */
@@ -237,18 +223,6 @@ BOOLEAN FileSystem::Format(SimpleDisk *_disk, unsigned int size)
      */
     FileSystem::inode_mgmt_blocks = (number_of_inodes * sizeof(INode_T)) / BLOCK_SIZE ;
     
-    Console::puts("Number of inodes = ");
-    Console::puti(FileSystem::number_of_inodes);
-    Console::puts("\n");
-
-    Console::puts("Size of Inode = ");
-    Console::puti(sizeof(INode_T));
-    Console::puts("\n");
-
-    Console::puts("Number of inode mgmt blocks = ");
-    Console::puti(FileSystem::inode_mgmt_blocks);
-    Console::puts("\n");
-
     int number_of_full_frames = inode_mgmt_blocks / 32;
     int left_over = inode_mgmt_blocks % 32;
     

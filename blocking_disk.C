@@ -91,13 +91,6 @@ void BlockingDisk::push(Thread *thread, DISK_OPERATION disk_oper, unsigned long 
 
     thread_queue[rear_index] = &thread_info_struct;
 
-#if 0
-    thread_queue[rear_index]->thread = thread;
-    thread_queue[rear_index]->disk_oper = disk_oper;
-    thread_queue[rear_index]->block_no = block_no;
-    thread_queue[rear_index]->buffer = buffer;
-#endif
-
     rear_index = (rear_index + 1) % MAX_SIZE;
     thread_count += 1;
 }

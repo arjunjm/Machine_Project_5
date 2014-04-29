@@ -17,7 +17,6 @@ Scheduler::Scheduler()
 
 void Scheduler::yield()
 {
-   static int tempcount = 0;
    if((front_index == next_index) && (ready_Queue[front_index] == NULL))
    {
        Console::puts("\nReady Queue is empty\n");
@@ -38,7 +37,7 @@ void Scheduler::yield()
                 /*
                 if (thread == Thread::CurrentThread())
                 {
-                    Console::puts("Continuing..\n");
+                   Console::puts("Continuing..\n");
                 }*/
                 if (thread == ready_thread)
                 {
@@ -86,6 +85,7 @@ void Scheduler::resume(Thread *_thread)
     else
     {
        // Check if thread already exists in the queue.
+       /*
        for (int i = front_index; i != next_index; i = (i+1) % MAX_QUEUE_SIZE)
        {
            if (ready_Queue[i] == _thread)
@@ -93,7 +93,7 @@ void Scheduler::resume(Thread *_thread)
                Console::puts("Thread already exists in the ready queue. Not scheduling again");
                return;
            }
-       }
+       }*/
        ready_Queue[next_index] = _thread;
        next_index = (next_index + 1) % MAX_QUEUE_SIZE;
     }
