@@ -1,4 +1,4 @@
-cscope 15 $HOME/Downloads/MP5               0000039372
+cscope 15 $HOME/Downloads/MP5               0000051308
 	@Scheduler.C
 
 1 
@@ -31,27 +31,27 @@ BlockögDisk
 SYSTEM_DISK
 ;
 
-11 
+10 
 	gScheduÀr
 ::
 	$ScheduÀr
 ()
 
-13 
+12 
 ‰⁄t_ödex
  = 0;
 
-14 
+13 
 √xt_ödex
  = 0;
 
-15 
+14 
 i
 =0; i< 
 MAX_QUEUE_SIZE
 ; i++)
 
-16 
+15 
 ªady_Queue
 [
 i
@@ -59,21 +59,21 @@ i
 NULL
 ;
 
-17 
+16 
 	}
 }
 
-19 
+18 
 	gScheduÀr
 ::
 	$yõld
 ()
 
-21 
+20 
 ãmpcou¡
  = 0;
 
-22 if((
+21 if((
 ‰⁄t_ödex
  =
 √xt_ödex
@@ -83,35 +83,13 @@ NULL
 NULL
 ))
 
-24 
+23 
 C⁄sﬁe
 ::
 	`puts
 ("\nReady Queue isÉmpty\n");
 
-28 
-C⁄sﬁe
-::
-	`puts
-("DispatchingáÅhread\n");
-
-29 
-	`¥ötQueue
-();
-
-30 i‡(
-ãmpcou¡
- == 8)
-
-31 
-åue
-);
-
-32 
-ãmpcou¡
-++;
-
-33 
+27 
 Thªad
  *
 ªady_thªad
@@ -121,13 +99,13 @@ Thªad
 ‰⁄t_ödex
 ];
 
-34 if(
+28 if(
 ªady_thªad
  !
 NULL
 )
 
-37 
+30 
 thªadInfoSåu˘T
  **
 blocked_thªad_queue
@@ -137,13 +115,13 @@ SYSTEM_DISK
 	`gë_blocked_thªad_queue
 ();
 
-38 
+31 
 i
  = 0; i < 
 MAX_QUEUE_SIZE
 ; i++)
 
-40 
+33 
 Thªad
  * 
 thªad
@@ -153,7 +131,7 @@ blocked_thªad_queue
 i
 ]->thread;
 
-41 
+34 
 block_no
  = 
 blocked_thªad_queue
@@ -161,7 +139,7 @@ blocked_thªad_queue
 i
 ]->block_no;
 
-42 * 
+35 * 
 buf„r
  = 
 blocked_thªad_queue
@@ -169,7 +147,7 @@ blocked_thªad_queue
 i
 ]->buffer;
 
-43 
+36 
 DISK_OPERATION
  
 thªad_›î
@@ -181,39 +159,25 @@ i
 disk_›î
 ;
 
-45 i‡(
-thªad
- =
-Thªad
-::
-	`CuºítThªad
-())
-
-47 
-C⁄sﬁe
-::
-	`puts
-("Continuing..\n");
-
-49 i‡(
+43 i‡(
 thªad
  =
 ªady_thªad
 )
 
-51 i‡(
+45 i‡(
 SYSTEM_DISK
 ->
 	`is_devi˚_ªady
 ())
 
-53 i‡(
+47 i‡(
 thªad_›î
  =
 READ
 )
 
-55 
+49 
 SYSTEM_DISK
 ->
 	`ªad_‰om_p‹t
@@ -223,13 +187,13 @@ block_no
 buf„r
 );
 
-57 i‡(
+51 i‡(
 thªad_›î
  =
 WRITE
 )
 
-59 
+53 
 SYSTEM_DISK
 ->
 	`wrôe_to_p‹t
@@ -239,17 +203,17 @@ block_no
 buf„r
 );
 
-64 
+58 
 	`ªsume
 (
 thªad
 );
 
-65 
+59 
 	`yõld
 ();
 
-71 
+64 
 Thªad
 ::
 	`di•©ch_to
@@ -257,17 +221,17 @@ Thªad
 ªady_thªad
 );
 
-72 
+65 
 ‰⁄t_ödex
  = (‰⁄t_ödex +1 ) % 
 MAX_QUEUE_SIZE
 ;
 
-77 
+70 
 	}
 }
 
-79 
+72 
 	gScheduÀr
 ::
 	$add
@@ -277,23 +241,23 @@ Thªad
 _thªad
 )
 
-81 
+74 
 C⁄sﬁe
 ::
 	`puts
 ("AddingáÅhread intoÅheÑeadyQueue");
 
-83 
+76 
 	`ªsume
 (
 _thªad
 );
 
-85 
+78 
 	}
 }
 
-87 
+80 
 	gScheduÀr
 ::
 	$ªsume
@@ -303,7 +267,7 @@ Thªad
 _thªad
 )
 
-89 i‡–(
+82 i‡–(
 √xt_ödex
  =
 ‰⁄t_ödex
@@ -313,13 +277,37 @@ _thªad
 NULL
 ))
 
-91 
+84 
 C⁄sﬁe
 ::
 	`puts
 ("ready Queue is fullÇeedÅo increase size\n");
 
-95 
+89 
+i
+ = 
+‰⁄t_ödex
+; i !
+√xt_ödex
+; i = (i+1Ë% 
+MAX_QUEUE_SIZE
+)
+
+91 i‡(
+ªady_Queue
+[
+i
+] =
+_thªad
+)
+
+93 
+C⁄sﬁe
+::
+	`puts
+("ThreadálreadyÉxists inÅheÑeady queue. Not schedulingágain");
+
+97 
 ªady_Queue
 [
 √xt_ödex
@@ -327,17 +315,17 @@ C⁄sﬁe
 _thªad
 ;
 
-96 
+98 
 √xt_ödex
  = (√xt_ödex + 1Ë% 
 MAX_QUEUE_SIZE
 ;
 
-98 
+100 
 	}
 }
 
-100 
+102 
 	gScheduÀr
 ::
 	$ãrmö©e
@@ -347,7 +335,7 @@ Thªad
 _thªad
 )
 
-102 
+104 
 i
 =0,
 j
@@ -355,19 +343,19 @@ j
 cou¡
 =0;
 
-103 
+105 
 i
  = 
 ‰⁄t_ödex
 ;
 
-105 
+107 
 C⁄sﬁe
 ::
 	`puts
 ("Åerminate is called\n");
 
-108 
+110 
 ªady_Queue
 [
 i
@@ -379,7 +367,7 @@ cou¡
 MAX_QUEUE_SIZE
 )
 
-111 if(
+113 if(
 ªady_Queue
 [
 i
@@ -387,29 +375,29 @@ i
 _thªad
 )
 
-114 
+116 
 i
  = (ò+ 1Ë% 
 MAX_QUEUE_SIZE
  ;
 
-115 
+117 
 cou¡
 ++;
 
-118 i‡(
+120 i‡(
 cou¡
  =
 MAX_QUEUE_SIZE
 )
 
-120 
+122 
 C⁄sﬁe
 ::
 	`puts
 (" NoÅhread found withÅhat idÜist is full\n");
 
-124 i‡(
+126 i‡(
 ªady_Queue
 [
 i
@@ -417,13 +405,13 @@ i
 NULL
 )
 
-127 
+129 
 C⁄sﬁe
 ::
 	`puts
 (" NoÅhread found withÅhat id\n");
 
-133 
+135 
 j
  = (
 i
@@ -431,13 +419,13 @@ i
 MAX_QUEUE_SIZE
 ;
 
-134 
+136 
 j
  !
 √xt_ödex
 )
 
-137 
+139 
 ªady_Queue
 [
 i
@@ -445,7 +433,7 @@ i
 j
 ];
 
-138 
+140 
 j
  = (
 i
@@ -453,13 +441,13 @@ i
 MAX_QUEUE_SIZE
 ;
 
-139 
+141 
 i
  = (i+1Ë% 
 MAX_QUEUE_SIZE
 ;
 
-141 
+143 
 ªady_Queue
 [
 i
@@ -467,23 +455,23 @@ i
 NULL
 ;
 
-142 
+144 
 √xt_ödex
  = 
 i
 ;
 
-147 
+149 
 	}
 }
 
-149 
+151 
 	gScheduÀr
 ::
 	$¥ötQueue
 ()
 
-151 
+153 
 i
  = 
 ‰⁄t_ödex
@@ -493,7 +481,7 @@ i
 MAX_QUEUE_SIZE
 )
 
-153 
+155 
 Thªad
  *
 thªad
@@ -503,13 +491,13 @@ thªad
 i
 ];
 
-154 i‡(
+156 i‡(
 thªad
  !
 NULL
 )
 
-156 
+158 
 C⁄sﬁe
 ::
 	`puti
@@ -519,19 +507,19 @@ thªad
 	`ThªadId
 ());
 
-157 
+159 
 C⁄sﬁe
 ::
 	`puts
 (" ");
 
-161 
+163 
 C⁄sﬁe
 ::
 	`puts
 (" NULL ");
 
-164 
+166 
 	}
 }
 
@@ -557,7 +545,7 @@ SCHEDULER_H
 
 26 
 	#MAX_QUEUE_SIZE
- 10
+ 1000
 
 	)
 
@@ -874,12 +862,6 @@ buf„r
 )
 
 32 
-C⁄sﬁe
-::
-	`puts
-("Blocking diskÑead\n");
-
-33 
 	`issue_›î©i⁄
 (
 READ
@@ -887,7 +869,7 @@ READ
 block_no
 );
 
-34 
+33 
 Thªad
  * 
 cuºít_thªad
@@ -895,7 +877,7 @@ cuºít_thªad
 	`CuºítThªad
 ();
 
-35 
+34 
 	`push
 (
 cuºít_thªad
@@ -907,17 +889,25 @@ block_no
 buf„r
 );
 
-36 
+37 
+SYSTEM_SCHEDULER
+->
+	`ªsume
+(
+cuºít_thªad
+);
+
+38 
 SYSTEM_SCHEDULER
 ->
 	`yõld
 ();
 
-37 
+39 
 	}
 }
 
-39 
+41 
 	gBlockögDisk
 ::
 	$wrôe
@@ -927,13 +917,7 @@ block_no
 buf„r
 )
 
-41 
-C⁄sﬁe
-::
-	`puts
-("Blocking disk write\n");
-
-42 
+43 
 	`issue_›î©i⁄
 (
 WRITE
@@ -941,7 +925,7 @@ WRITE
 block_no
 );
 
-43 
+44 
 Thªad
  * 
 cuºít_thªad
@@ -949,7 +933,7 @@ cuºít_thªad
 	`CuºítThªad
 ();
 
-44 
+45 
 	`push
 (
 cuºít_thªad
@@ -961,17 +945,25 @@ block_no
 buf„r
 );
 
-45 
+48 
+SYSTEM_SCHEDULER
+->
+	`ªsume
+(
+cuºít_thªad
+);
+
+49 
 SYSTEM_SCHEDULER
 ->
 	`yõld
 ();
 
-46 
+50 
 	}
 }
 
-48 
+52 
 	gBlockögDisk
 ::
 	$ªad_‰om_p‹t
@@ -981,25 +973,25 @@ block_no
 _buf
 )
 
-51 
+55 
 i
 ;
 
-52 
+56 
 tmpw
 ;
 
-53 
+57 
 i
  = 0; i < 256; i++) {
 
-54 
+58 
 tmpw
  = 
 	`öp‹tw
 (0x1F0);
 
-55 
+59 
 _buf
 [
 i
@@ -1007,7 +999,7 @@ i
 tmpw
 ;
 
-56 
+60 
 _buf
 [
 i
@@ -1015,11 +1007,15 @@ i
 tmpw
  >> 8);
 
-58 
+62 
+	`p›
+();
+
+63 
 	}
 }
 
-60 
+65 
 	gBlockögDisk
 ::
 	$wrôe_to_p‹t
@@ -1029,19 +1025,19 @@ block_no
 _buf
 )
 
-63 
+68 
 i
 ;
 
-64 
+69 
 tmpw
 ;
 
-65 
+70 
 i
  = 0; i < 256; i++) {
 
-66 
+71 
 tmpw
  = 
 _buf
@@ -1049,23 +1045,27 @@ _buf
 i
 ] | (_buf[2*i+1] << 8);
 
-67 
+72 
 	`ouç‹tw
 (0x1F0, 
 tmpw
 );
 
-70 
+74 
+	`p›
+();
+
+75 
 	}
 }
 
-72 
+77 
 thªadInfoSåu˘T
  
 	gthªad_öfo_°ru˘
 ;
 
-74 
+79 
 	gBlockögDisk
 ::
 	$push
@@ -1083,43 +1083,43 @@ block_no
 buf„r
 )
 
-76 i‡(
+81 i‡(
 thªad_cou¡
  > 
 MAX_SIZE
 )
 
-78 
+83 
 C⁄sﬁe
 ::
 	`puts
 ("MaxÅhread countÉxceeded \n");
 
-83 
+87 
 thªad_öfo_°ru˘
 .
 thªad
  =Åhread;
 
-84 
+88 
 thªad_öfo_°ru˘
 .
 disk_›î
  = disk_oper;
 
-85 
+89 
 thªad_öfo_°ru˘
 .
 block_no
  = block_no;
 
-86 
+90 
 thªad_öfo_°ru˘
 .
 buf„r
  = buffer;
 
-88 
+92 
 thªad_queue
 [
 ª¨_ödex
@@ -1127,7 +1127,7 @@ thªad_queue
 thªad_öfo_°ru˘
 ;
 
-92 
+95 
 thªad_queue
 [
 ª¨_ödex
@@ -1135,7 +1135,7 @@ thªad_queue
 thªad
  =Åhread;
 
-93 
+96 
 thªad_queue
 [
 ª¨_ödex
@@ -1143,7 +1143,7 @@ thªad_queue
 disk_›î
  = disk_oper;
 
-94 
+97 
 thªad_queue
 [
 ª¨_ödex
@@ -1151,7 +1151,7 @@ thªad_queue
 block_no
  = block_no;
 
-95 
+98 
 thªad_queue
 [
 ª¨_ödex
@@ -1159,37 +1159,31 @@ thªad_queue
 buf„r
  = buffer;
 
-98 
+101 
 ª¨_ödex
  = (ª¨_ödex + 1Ë% 
 MAX_SIZE
 ;
 
-99 
+102 
 thªad_cou¡
  += 1;
 
-100 
+103 
 	}
 }
 
-102 
+105 
 	gBlockögDisk
 ::
 	$p›
 ()
 
-104 i‡(
+107 i‡(
 thªad_cou¡
  == 0)
 
-106 
-C⁄sﬁe
-::
-	`puts
-("No blockedÅhread in queue \n");
-
-109 
+112 
 thªad_queue
 [
 ‰⁄t_ödex
@@ -1197,21 +1191,21 @@ thªad_queue
 NULL
 ;
 
-110 
+113 
 thªad_cou¡
  -= 1;
 
-111 
+114 
 ‰⁄t_ödex
  = (‰⁄t_ödex + 1Ë% 
 MAX_SIZE
 ;
 
-112 
+115 
 	}
 }
 
-114 
+117 
 BOOLEAN
  
 	gBlockögDisk
@@ -1219,15 +1213,15 @@ BOOLEAN
 	$is_devi˚_ªady
 ()
 
-116  
+119  
 	`is_ªady
 ();
 
-117 
+120 
 	}
 }
 
-119 
+122 
 	gBlockögDisk
 ::
 	$£t_thªad_to_nuŒ
@@ -1237,35 +1231,35 @@ Thªad
 thªad
 )
 
-121 i‡(
+124 i‡(
 thªad
  =
 NULL
 )
 
-123 
+126 
 C⁄sﬁe
 ::
 	`puts
 ("Thread NULL...returning\n");
 
-127 i‡(
+130 i‡(
 thªad_cou¡
  == 0)
 
-129 
+132 
 C⁄sﬁe
 ::
 	`puts
 ("No blockedÅhread in queue \n");
 
-132 
+135 
 i
  = 0 ; i < 
 MAX_SIZE
 ; i++)
 
-134 i‡(
+137 i‡(
 thªad_queue
 [
 i
@@ -1273,7 +1267,7 @@ i
 thªad
  ==Åhread)
 
-136 
+139 
 thªad_queue
 [
 i
@@ -1281,11 +1275,11 @@ i
 NULL
 ;
 
-139 
+142 
 	}
 }
 
-141 
+144 
 thªadInfoSåu˘T
 ** 
 	gBlockögDisk
@@ -1293,11 +1287,11 @@ thªadInfoSåu˘T
 	$gë_blocked_thªad_queue
 ()
 
-143  
+146  
 thªad_queue
 ;
 
-144 
+147 
 	}
 }
 
@@ -2791,6 +2785,1620 @@ FALSE
 	}
 };
 
+	@file_system.C
+
+1 
+	~"fûe_sy°em.H
+"
+
+2 
+	~"c⁄sﬁe.H
+"
+
+7 
+	gFûe
+::
+	$Fûe
+()
+
+12 
+cuºít_posôi⁄
+ = 0;
+
+13 
+cuºít_block
+ = -1;
+
+14 
+°¨tög_block
+ = -1;
+
+15 
+fûe_size
+ = 0;
+
+16 
+fûe_id
+ = -1;
+
+17 
+cuºít_block_ödex
+ = 1;
+
+18 
+fûe_blocks
+ = 
+NULL
+;
+
+19 
+	}
+}
+
+21 
+	gFûe
+::
+	$Ród
+(
+n
+, * 
+buf„r
+)
+
+23 i‡(
+cuºít_block
+ =-1 || 
+°¨tög_block
+ == -1)
+
+25 
+C⁄sﬁe
+::
+	`puts
+("File hasÇot been initialized\n");
+
+29 
+fûe_blocks
+ = 
+fûe_sy°em
+->
+	`GëFûeBlocks
+(
+fûe_id
+);
+
+30 
+numbî_of_ch¨_ªad
+ = 0;
+
+31 
+cuºít_block
+ = 
+fûe_blocks
+[
+cuºít_block_ödex
+ - 1];
+
+32 
+block_d©a
+[
+BLOCK_SIZE
+];
+
+33 
+fûe_sy°em
+->
+disk
+->
+	`ªad
+(
+cuºít_block
+, 
+block_d©a
+);
+
+35 
+n
+ > 0 && !
+	`EoF
+())
+
+37 
+buf„r
+[
+numbî_of_ch¨_ªad
+] = 
+block_d©a
+[
+cuºít_posôi⁄
+];
+
+38 
+numbî_of_ch¨_ªad
+++;
+
+39 
+cuºít_posôi⁄
+++;
+
+40 i‡(
+cuºít_posôi⁄
+ >
+BLOCK_SIZE
+)
+
+42 
+cuºít_posôi⁄
+ = 0;
+
+43 
+cuºít_block_ödex
+++;
+
+44 i‡(
+cuºít_block_ödex
+ >= 10)
+
+49  
+numbî_of_ch¨_ªad
+;
+
+51 
+cuºít_block
+ = 
+fûe_blocks
+[
+cuºít_block_ödex
+ - 1];
+
+52 
+fûe_sy°em
+->
+disk
+->
+	`ªad
+(
+cuºít_block
+, 
+block_d©a
+);
+
+54 
+n
+--;
+
+56  
+numbî_of_ch¨_ªad
+;
+
+57 
+	}
+}
+
+59 
+	gFûe
+::
+	$Wrôe
+(
+n
+, * 
+buf„r
+)
+
+61 i‡(
+cuºít_block
+ =-1 || 
+°¨tög_block
+ == -1)
+
+63 
+C⁄sﬁe
+::
+	`puts
+("File hasÇot been initialized\n");
+
+67 
+posôi⁄
+ = 
+cuºít_posôi⁄
+;
+
+68 
+block_to_wrôe
+ = 
+cuºít_block
+;
+
+69 
+ch¨_wrôãn
+ = 0;
+
+70 
+numbî_of_√w_blocks
+ = 0;
+
+71 
+cuº_block_d©a
+[
+BLOCK_SIZE
+];
+
+72 
+fûe_sy°em
+->
+disk
+->
+	`ªad
+(
+block_to_wrôe
+, 
+cuº_block_d©a
+);
+
+73 
+ch¨_wrôãn
+ < 
+n
+ || 
+buf„r
+[char_written] == '\0')
+
+75 
+cuº_block_d©a
+[
+posôi⁄
+] = 
+buf„r
+[
+ch¨_wrôãn
+];
+
+76 
+posôi⁄
+++;
+
+77 
+ch¨_wrôãn
+++;
+
+78 if(
+posôi⁄
+ >
+BLOCK_SIZE
+)
+
+80 
+numbî_of_√w_blocks
+++;
+
+81 
+fûe_sy°em
+->
+disk
+->
+	`wrôe
+(
+block_to_wrôe
+, 
+cuº_block_d©a
+);
+
+89 
+cuº_block_d©a
+[
+posôi⁄
+++] = -1;
+
+90 
+fûe_sy°em
+->
+disk
+->
+	`wrôe
+(
+block_to_wrôe
+, 
+cuº_block_d©a
+);
+
+91  
+ch¨_wrôãn
+;
+
+92 
+	}
+}
+
+94 
+	gFûe
+::
+	$Re£t
+()
+
+96 
+cuºít_posôi⁄
+ = 0;
+
+97 
+cuºít_block
+ = 
+°¨tög_block
+;
+
+98 
+	}
+}
+
+100 
+	gFûe
+::
+	$Rewrôe
+()
+
+102 
+buf
+[
+BLOCK_SIZE
+];
+
+103 
+	`mem£t
+(
+buf
+, 0, 
+BLOCK_SIZE
+);
+
+104 
+i
+ = 0; i < 10; i++)
+
+106 i‡(
+fûe_blocks
+[
+i
+] != 0)
+
+108 
+fûe_sy°em
+->
+disk
+->
+	`wrôe
+(
+fûe_blocks
+[
+i
+], 
+buf
+);
+
+109 
+fûe_sy°em
+->
+	`Rñó£Block
+(
+fûe_blocks
+[
+i
+]);
+
+110 
+fûe_blocks
+[
+i
+] = 0;
+
+117 
+	}
+}
+
+119 
+BOOLEAN
+ 
+	gFûe
+::
+	$EoF
+()
+
+121 
+block_d©a
+[
+BLOCK_SIZE
+];
+
+122 
+fûe_sy°em
+->
+disk
+->
+	`ªad
+(
+cuºít_block
+, 
+block_d©a
+);
+
+123 if(
+block_d©a
+[
+cuºít_posôi⁄
+] == -1)
+
+125  
+TRUE
+;
+
+129  
+FALSE
+;
+
+131 
+	}
+}
+
+133 
+	gFûe
+::
+	$PrötFûeAâribuãs
+()
+
+135 
+C⁄sﬁe
+::
+	`puts
+("\n");
+
+136 
+C⁄sﬁe
+::
+	`puts
+("Current Position : ");
+
+137 
+C⁄sﬁe
+::
+	`puti
+(
+cuºít_posôi⁄
+);
+
+138 
+C⁄sﬁe
+::
+	`puts
+("\n");
+
+140 
+C⁄sﬁe
+::
+	`puts
+("Starting Block : ");
+
+141 
+C⁄sﬁe
+::
+	`puti
+(
+°¨tög_block
+);
+
+142 
+C⁄sﬁe
+::
+	`puts
+("\n");
+
+144 
+C⁄sﬁe
+::
+	`puts
+("Current Block : ");
+
+145 
+C⁄sﬁe
+::
+	`puti
+(
+cuºít_block
+);
+
+146 
+C⁄sﬁe
+::
+	`puts
+("\n");
+
+148 
+C⁄sﬁe
+::
+	`puts
+("File Size : ");
+
+149 
+C⁄sﬁe
+::
+	`puti
+(
+fûe_size
+);
+
+150 
+C⁄sﬁe
+::
+	`puts
+("\n");
+
+152 
+C⁄sﬁe
+::
+	`puts
+("File ID: ");
+
+153 
+C⁄sﬁe
+::
+	`puti
+(
+fûe_id
+);
+
+154 
+C⁄sﬁe
+::
+	`puts
+("\n");
+
+156 
+C⁄sﬁe
+::
+	`puts
+("Current Block Index: ");
+
+157 
+C⁄sﬁe
+::
+	`puti
+(
+cuºít_block_ödex
+);
+
+158 
+C⁄sﬁe
+::
+	`puts
+("\n");
+
+160 
+	}
+}
+
+169 
+Sim∂eDisk
+ * 
+	gFûeSy°em
+::
+disk
+;
+
+170 
+	gFûeSy°em
+::
+size
+;
+
+171 
+BOOLEAN
+ 
+	gFûeSy°em
+::
+is_mou¡ed
+;
+
+172 * 
+	gFûeSy°em
+::
+‰ì_block_m≠
+;
+
+173 
+	gFûeSy°em
+::
+numbî_of_blocks
+;
+
+174 
+	gFûeSy°em
+::
+numbî_of_öodes
+;
+
+175 
+	gFûeSy°em
+::
+öode_mgmt_blocks
+;
+
+177 
+	gFûeSy°em
+::
+	$FûeSy°em
+()
+
+179 
+FûeSy°em
+::
+disk
+ = 
+NULL
+;
+
+180 
+is_mou¡ed
+ = 
+FALSE
+;
+
+181 
+size
+ = 0;
+
+182 
+	}
+}
+
+184 
+BOOLEAN
+ 
+	gFûeSy°em
+::
+	$Mou¡
+(
+Sim∂eDisk
+ *
+_disk
+)
+
+186 i‡(
+_disk
+ && !
+is_mou¡ed
+)
+
+188 
+FûeSy°em
+::
+is_mou¡ed
+ = 
+TRUE
+;
+
+189 
+FûeSy°em
+::
+disk
+ = 
+_disk
+;
+
+190  
+TRUE
+;
+
+193  
+FALSE
+;
+
+194 
+	}
+}
+
+196 
+BOOLEAN
+ 
+	gFûeSy°em
+::
+	$F‹m©
+(
+Sim∂eDisk
+ *
+_disk
+, 
+size
+)
+
+198 i‡(
+size
+ > 
+MAX_DISK_SIZE
+)
+
+200 
+C⁄sﬁe
+::
+	`puts
+("File system size cannotÉxceed maximum disk size! Exiting\n");
+
+201  
+FALSE
+;
+
+203 
+FûeSy°em
+::
+disk
+ = 
+_disk
+;
+
+204 
+FûeSy°em
+::
+size
+ = size;
+
+205 
+FûeSy°em
+::
+numbî_of_blocks
+ = 
+size
+ / 
+BLOCK_SIZE
+;
+
+206 
+	`mem£t
+(
+‰ì_block_m≠
+, 0, ((
+FûeSy°em
+::
+numbî_of_blocks
+)/32) * ());
+
+208 
+buf„r
+[
+BLOCK_SIZE
+];
+
+209 
+	`mem£t
+(
+buf„r
+, 0, 
+BLOCK_SIZE
+);
+
+211 
+i
+ = 0 ; i < 
+FûeSy°em
+::
+numbî_of_blocks
+; i++)
+
+213 
+FûeSy°em
+::
+disk
+->
+	`wrôe
+(
+i
+, 
+buf„r
+);
+
+217 
+FûeSy°em
+::
+numbî_of_öodes
+ = FûeSy°em::
+numbî_of_blocks
+ / 10;
+
+224 
+FûeSy°em
+::
+öode_mgmt_blocks
+ = (
+numbî_of_öodes
+ * (
+INode_T
+)Ë/ 
+BLOCK_SIZE
+ ;
+
+226 
+C⁄sﬁe
+::
+	`puts
+("Number of inodes = ");
+
+227 
+C⁄sﬁe
+::
+	`puti
+(
+FûeSy°em
+::
+numbî_of_öodes
+);
+
+228 
+C⁄sﬁe
+::
+	`puts
+("\n");
+
+230 
+C⁄sﬁe
+::
+	`puts
+("Size of Inode = ");
+
+231 
+C⁄sﬁe
+::
+	`puti
+((
+INode_T
+));
+
+232 
+C⁄sﬁe
+::
+	`puts
+("\n");
+
+234 
+C⁄sﬁe
+::
+	`puts
+("Number of inode mgmt blocks = ");
+
+235 
+C⁄sﬁe
+::
+	`puti
+(
+FûeSy°em
+::
+öode_mgmt_blocks
+);
+
+236 
+C⁄sﬁe
+::
+	`puts
+("\n");
+
+238 
+numbî_of_fuŒ_‰ames
+ = 
+öode_mgmt_blocks
+ / 32;
+
+239 
+À·_ovî
+ = 
+öode_mgmt_blocks
+ % 32;
+
+241 
+i
+ = 0;
+
+242 
+i
+ = 0; i < 
+numbî_of_fuŒ_‰ames
+; i++)
+
+243 
+‰ì_block_m≠
+[
+i
+] = 0xFFFFFFFF;
+
+245 
+j
+ = 0; j < 
+À·_ovî
+; j++)
+
+246 
+‰ì_block_m≠
+[
+i
+] = 
+	`SET_BIT
+(‰ì_block_m≠[i], 
+j
+);
+
+248  
+TRUE
+;
+
+249 
+	}
+}
+
+251 
+BOOLEAN
+ 
+	gFûeSy°em
+::
+	$LookupFûe
+(
+fûe_id
+, 
+Fûe
+ *
+fûe
+)
+
+253 
+buf„r
+[
+BLOCK_SIZE
+];
+
+254 
+i
+ = 0; i < 
+öode_mgmt_blocks
+; i++)
+
+256 
+disk
+->
+	`ªad
+(
+i
+, 
+buf„r
+);
+
+257 
+INode_T
+ *
+öode_li°
+ = (INode_T*Ë
+buf„r
+;
+
+258 
+numbî_of_öodes_ö_li°
+ = 
+BLOCK_SIZE
+/(
+INode_T
+);
+
+259 
+j
+ = 0; j < 
+numbî_of_öodes_ö_li°
+; j++)
+
+261 i‡(
+öode_li°
+[
+j
+].
+fûe_id
+ == file_id)
+
+264 
+fûe
+->
+cuºít_posôi⁄
+ = 0;
+
+265 
+fûe
+->
+fûe_size
+ = 0;
+
+266 
+fûe
+->
+cuºít_block_ödex
+ = 1;
+
+268 
+fûe
+->
+°¨tög_block
+ = 
+öode_li°
+[
+j
+].
+block_no
+[0];
+
+269 
+fûe
+->
+cuºít_block
+ = 
+öode_li°
+[
+j
+].
+block_no
+[0];
+
+270 
+fûe
+->
+fûe_id
+ = file_id;
+
+271 
+fûe
+->
+fûe_sy°em
+ = 
+this
+;
+
+272 
+fûe
+->
+fûe_blocks
+ = 
+	`GëFûeBlocks
+(
+fûe_id
+);
+
+274  
+TRUE
+;
+
+278  
+FALSE
+;
+
+279 
+	}
+}
+
+281 
+BOOLEAN
+ 
+	gFûeSy°em
+::
+	$Cª©eFûe
+(
+fûe_id
+)
+
+283 if(!
+is_mou¡ed
+ || 
+fûe_id
+ == 0)
+
+285 
+C⁄sﬁe
+::
+	`puts
+("File systemÇot mounted or invalid file ID!! Returning\n");
+
+286  
+FALSE
+;
+
+289 
+Fûe
+ *
+fûe
+;
+
+290 if(
+	`LookupFûe
+(
+fûe_id
+, 
+fûe
+))
+
+292 
+C⁄sﬁe
+::
+	`puts
+("FileálreadyÉxists! Not creatingágain\n");
+
+293  
+FALSE
+;
+
+296 
+buf„r
+[
+BLOCK_SIZE
+];
+
+297 
+i
+ = 0; i < 
+öode_mgmt_blocks
+; i++)
+
+299 
+disk
+->
+	`ªad
+(
+i
+, 
+buf„r
+);
+
+300 
+INode_T
+ *
+öode_li°
+ = (INode_T*)
+buf„r
+;
+
+301 
+numbî_of_öodes_ö_li°
+ = 
+BLOCK_SIZE
+/(
+INode_T
+);
+
+302 
+j
+ = 0; j < 
+numbî_of_öodes_ö_li°
+; j++)
+
+304 i‡(
+öode_li°
+[
+j
+].
+fûe_id
+ == 0)
+
+306 
+öode_li°
+[
+j
+].
+fûe_id
+ = file_id;
+
+307 
+öode_li°
+[
+j
+].
+fûe_size
+ = 0;
+
+308 
+öode_li°
+[
+j
+].
+block_no
+[0] = 
+	`GëFªeBlockNumbî
+();
+
+309 
+öode_li°
+[
+j
+].
+numbî_of_blocks_u£d
+ = 0;
+
+310 
+disk
+->
+	`wrôe
+(
+i
+, 
+buf„r
+);
+
+311  
+TRUE
+;
+
+315  
+FALSE
+;
+
+316 
+	}
+}
+
+318 
+BOOLEAN
+ 
+	gFûeSy°em
+::
+	$DñëeFûe
+(
+fûe_id
+)
+
+320 if(!
+is_mou¡ed
+ || 
+fûe_id
+ == 0)
+
+322 
+C⁄sﬁe
+::
+	`puts
+("File systemÇot mounted or invalid file ID!! Returning\n");
+
+323  
+FALSE
+;
+
+326 
+buf„r
+[
+BLOCK_SIZE
+];
+
+327 
+i
+ = 0; i < 
+öode_mgmt_blocks
+; i++)
+
+329 
+disk
+->
+	`ªad
+(
+i
+, 
+buf„r
+);
+
+330 
+INode_T
+ *
+öode_li°
+ = (INode_T*)
+buf„r
+;
+
+331 
+numbî_of_öodes_ö_li°
+ = 
+BLOCK_SIZE
+/(
+INode_T
+);
+
+332 
+j
+ = 0; j < 
+numbî_of_öodes_ö_li°
+; j++)
+
+334 i‡(
+öode_li°
+[
+j
+].
+fûe_id
+ == file_id)
+
+336 
+öode_li°
+[
+j
+].
+fûe_id
+ = 0;
+
+337 
+öode_li°
+[
+j
+].
+fûe_size
+ = 0;
+
+338 
+k
+ = 0; k < 10; k++)
+
+340 i‡(
+öode_li°
+[
+j
+].
+block_no
+[
+k
+])
+
+341 
+	`Rñó£Block
+(
+öode_li°
+[
+j
+].
+block_no
+[
+k
+]);
+
+342 
+öode_li°
+[
+j
+].
+block_no
+[
+k
+] = 0;
+
+344 
+öode_li°
+[
+j
+].
+numbî_of_blocks_u£d
+ = 0;
+
+345 
+disk
+->
+	`wrôe
+(
+i
+, 
+buf„r
+);
+
+346  
+TRUE
+;
+
+350  
+FALSE
+;
+
+351 
+	}
+}
+
+353 
+	gFûeSy°em
+::
+	$GëFªeBlockNumbî
+()
+
+355 
+BOOLEAN
+ 
+block_found
+ = 
+Ál£
+;
+
+356 
+i
+, 
+j
+;
+
+357 
+block_numbî
+;
+
+358  
+i
+ = 0 ; i < 
+numbî_of_blocks
+ / 32; i++)
+
+360 i‡(
+‰ì_block_m≠
+[
+i
+] != 0xFFFFFFFF)
+
+362  
+j
+ = 0; j <= 31; j++ )
+
+364 i‡(
+	`IS_SET
+(
+‰ì_block_m≠
+[
+i
+], 
+j
+))
+
+368 
+‰ì_block_m≠
+[
+i
+] = 
+	`TOGGLE_BIT
+(‰ì_block_m≠[i], 
+j
+);
+
+369 
+block_found
+ = 
+åue
+;
+
+373 i‡(
+block_found
+)
+
+377 i‡(
+block_found
+)
+
+379 
+block_numbî
+ = 
+j
+ + 
+i
+*32;
+
+380  
+block_numbî
+;
+
+386 
+	}
+}
+
+388 
+	gFûeSy°em
+::
+	$Rñó£Block
+(
+block_no
+)
+
+390 
+bô_posôi⁄
+ = 
+block_no
+ % 32;
+
+391 
+ödex_of_‰ame
+ = 
+block_no
+ / 32;
+
+392 i‡(
+	`IS_SET
+ (
+‰ì_block_m≠
+[
+ödex_of_‰ame
+], 
+bô_posôi⁄
+))
+
+394 
+‰ì_block_m≠
+[
+ödex_of_‰ame
+] = 
+	`TOGGLE_BIT
+(‰ì_block_m≠[ödex_of_‰ame], 
+bô_posôi⁄
+);
+
+396 
+	}
+}
+
+398 * 
+	gFûeSy°em
+::
+	$GëFûeBlocks
+(
+fûe_id
+)
+
+400 
+buf„r
+[
+BLOCK_SIZE
+];
+
+401 
+i
+ = 0; i < 
+öode_mgmt_blocks
+; i++)
+
+403 
+disk
+->
+	`ªad
+(
+i
+, 
+buf„r
+);
+
+404 
+INode_T
+ *
+öode_li°
+ = (INode_T*Ë
+buf„r
+;
+
+405 
+numbî_of_öodes_ö_li°
+ = 
+BLOCK_SIZE
+/(
+INode_T
+);
+
+406 
+j
+ = 0; j < 
+numbî_of_öodes_ö_li°
+; j++)
+
+408 i‡(
+öode_li°
+[
+j
+].
+fûe_id
+ == file_id)
+
+410  
+öode_li°
+[
+j
+].
+block_no
+;
+
+414  
+NULL
+;
+
+416 
+	}
+}
+
 	@file_system.H
 
 14 #i‚de‡
@@ -2803,47 +4411,175 @@ _FILE_SYSTEM_H_
 
 	)
 
-27 
+21 
+	#MB
+ * (0x1 << 20)
+
+	)
+
+22 
+	#KB
+ * (0x1 << 10)
+
+	)
+
+23 
+	#MAX_DISK_SIZE
+ ((10 
+MB
+))
+
+	)
+
+24 
+	#BLOCK_SIZE
+ 512
+
+	)
+
+25 
+	#MAX_NUMBER_OF_BLOCKS
+ ( (
+MAX_DISK_SIZE
+Ë/ (
+BLOCK_SIZE
+Ë)
+
+	)
+
+27 
+	#IS_SET
+(
+v¨
+, 
+pos
+Ë((v¨Ë& (1<<’os)))
+
+	)
+
+28 
+	#SET_BIT
+(
+v¨
+, 
+pos
+Ë((v¨Ë|(1<<’os)))
+
+	)
+
+29 
+	#TOGGLE_BIT
+(
+v¨
+, 
+pos
+Ë((v¨Ë^(1<<’os)))
+
+	)
+
+36 
 	~"utûs.H
 "
 
-28 
+37 
 	~"sim∂e_disk.H
 "
 
-40 
+42 
+	sINode
+
+
+44 
+	mfûe_id
+;
+
+45 
+	mfûe_size
+;
+
+46 
+	mblock_no
+[10];
+
+47 
+	mnumbî_of_blocks_u£d
+;
+
+48 }
+	tINode_T
+;
+
+54 
 ˛ass
  
 	gFûeSy°em
 ;
 
-46 ˛as†
+60 ˛as†
 	cFûe
  {
 
-47 
+61 
+‰õnd
+ 
+˛ass
+ 
+	mFûeSy°em
+;
+
+62 
 	m¥iv©e
 :
 
-50 
-FûeSy°em
- * 
-fûe_sy°em
+65 
+cuºít_posôi⁄
 ;
 
-52 
+66 
+	m°¨tög_block
+;
+
+67 
+	mcuºít_block
+;
+
+68 
+	mcuºít_block_ödex
+;
+
+69 * 
+	mfûe_blocks
+;
+
+70 
+	mfûe_size
+;
+
+71 
+FûeSy°em
+ * 
+	mfûe_sy°em
+;
+
+72 
+	mˇched_block
+[
+BLOCK_SIZE
+];
+
+73 
 	mfûe_id
 ;
 
-60 
+81 
 	mpublic
 :
 
-62 
+83 
 Fûe
 ();
 
-66 
+87 
 Ród
 (
 _n
@@ -2851,7 +4587,7 @@ _n
 _buf
 );
 
-71 
+92 
 Wrôe
 (
 _n
@@ -2859,25 +4595,29 @@ _n
 _buf
 );
 
-77 
+98 
 Re£t
 ();
 
-80 
+101 
 Rewrôe
 ();
 
-85 
+106 
 BOOLEAN
  
 EoF
 ();
 
-95 ˛as†
+110 
+PrötFûeAâribuãs
+();
+
+118 ˛as†
 	cFûeSy°em
  {
 
-97 
+120 
 ‰õnd
  
 ˛ass
@@ -2885,29 +4625,51 @@ EoF
 	mFûe
 ;
 
-99 
+122 
 	m¥iv©e
 :
 
-102 
+125 
 Sim∂eDisk
  * 
 disk
 ;
 
-103 
+126 
 	msize
 ;
 
-105 
+127 
+BOOLEAN
+ 
+	mis_mou¡ed
+;
+
+128 * 
+	m‰ì_block_m≠
+;
+
+129 
+	mnumbî_of_blocks
+;
+
+130 
+	mnumbî_of_öodes
+;
+
+131 
+	möode_mgmt_blocks
+;
+
+133 
 	mpublic
 :
 
-107 
+135 
 FûeSy°em
 ();
 
-110 
+138 
 BOOLEAN
  
 Mou¡
@@ -2917,7 +4679,7 @@ Sim∂eDisk
 _disk
 );
 
-115 
+143 
 BOOLEAN
  
 F‹m©
@@ -2929,7 +4691,7 @@ _disk
 _size
 );
 
-119 
+147 
 BOOLEAN
  
 LookupFûe
@@ -2941,7 +4703,7 @@ Fûe
 _fûe
 );
 
-123 
+151 
 BOOLEAN
  
 Cª©eFûe
@@ -2949,10 +4711,26 @@ Cª©eFûe
 _fûe_id
 );
 
-127 
+155 
 BOOLEAN
  
 DñëeFûe
+(
+_fûe_id
+);
+
+160 
+GëFªeBlockNumbî
+();
+
+161 
+Rñó£Block
+(
+block_no
+);
+
+165 * 
+GëFûeBlocks
 (
 _fûe_id
 );
@@ -4331,6 +6109,12 @@ _IRQ_H_
 
 	)
 
+36 
+	#_USES_FILESYSTEM_
+
+
+	)
+
 47 
 	~"machöe.H
 "
@@ -4429,8 +6213,8 @@ ScheduÀr
 _USES_DISK_
 
 
-103 
-BlockögDisk
+104 
+Sim∂eDisk
  * 
 	gSYSTEM_DISK
 ;
@@ -4507,16 +6291,6 @@ dummy_£c
 dummy_tic
 ;
 
-157 
-Sim∂eTimî
-::
-	`cuºít
-(
-dummy_£c
-, 
-dummy_tic
-);
-
 159  
 dummy_tic
 ;
@@ -4538,38 +6312,354 @@ _sim∂e_disk
 ) {
 
 165 
+C⁄sﬁe
+::
+	`puts
+("Initializing file system\n");
+
+166 
+FûeSy°em
+ *
+fs
+ = 
+_fûe_sy°em
+;
+
+167 
+Sim∂eDisk
+ *
+disk
+ = 
+_sim∂e_disk
+;
+
+169 
+ãmp_buf„r
+[205];
+
+170 
+buf1
+[500];
+
+171 
+wrôãn_ch¨
+;
+
+172 
+ãmp_buf„r
+[0] = 'A';
+
+173 
+ãmp_buf„r
+[1] = 'r';
+
+174 
+ãmp_buf„r
+[2] = 'J';
+
+175 
+ãmp_buf„r
+[3] = 'U';
+
+176 
+i
+ = 4; i < 200; i++)
+
+177 
+ãmp_buf„r
+[
+i
+] = '*';
+
+179 
+fs_size
+ = 
+BLOCK_SIZE
+ * 1000;
+
+180 i‡(
+fs
+->
+	`Mou¡
+(
+disk
+Ë=
+TRUE
+)
+
+182 
+C⁄sﬁe
+::
+	`puts
+("Mount successful\n");
+
+186 
+C⁄sﬁe
+::
+	`puts
+("Mount unsuccessful\n");
+
+190 i‡(
+fs
+->
+	`F‹m©
+(
+disk
+, 
+fs_size
+Ë=
+TRUE
+)
+
+192 
+C⁄sﬁe
+::
+	`puts
+("Format successful\n");
+
+196 
+C⁄sﬁe
+::
+	`puts
+("Format unsuccessful\n");
+
+200 if(
+fs
+->
+	`Cª©eFûe
+(1Ë=
+TRUE
+)
+
+202 
+C⁄sﬁe
+::
+	`puts
+("File 1 created successfully\n");
+
+205 
+Fûe
+ 
+f1
+ = 
+	`Fûe
+();
+
+206 if(
+fs
+->
+	`LookupFûe
+(1, &
+f1
+Ë=
+TRUE
+)
+
+208 
+C⁄sﬁe
+::
+	`puts
+("FileÜookup for file 1 successful\n");
+
+212 
+C⁄sﬁe
+::
+	`puts
+("FileÜookup for file 1 failed\n");
+
+214 
+C⁄sﬁe
+::
+	`puts
+("GoingÅo write\n");
+
+215 
+wrôãn_ch¨
+ = 
+f1
+.
+	`Wrôe
+(100, 
+ãmp_buf„r
+);
+
+217 
+C⁄sﬁe
+::
+	`puts
+("Wrote ");
+
+218 
+C⁄sﬁe
+::
+	`puti
+(
+wrôãn_ch¨
+);
+
+219 
+C⁄sﬁe
+::
+	`puts
+(" characters intoÅhe disk\n");
+
+221 
+ªad_ch¨
+ = 
+f1
+.
+	`Ród
+(300, 
+buf1
+);
+
+222 
+C⁄sﬁe
+::
+	`puts
+("Read ");
+
+223 
+C⁄sﬁe
+::
+	`puti
+(
+ªad_ch¨
+);
+
+224 
+C⁄sﬁe
+::
+	`puts
+(" characters\n");
+
+225 
+C⁄sﬁe
+::
+	`puts
+("...Read data = ");
+
+226 
+i
+ = 0; i < 100; i++)
+
+228 
+C⁄sﬁe
+::
+	`putch
+(
+buf1
+[
+i
+]);
+
+231 
+ãmp_buf„r
+[0] = 'C';
+
+232 
+f1
+.
+	`Wrôe
+(100, 
+ãmp_buf„r
+);
+
+234 
+C⁄sﬁe
+::
+	`puts
+("\nResetting currentÖositionÅoÅhe start of file\n");
+
+235 
+f1
+.
+	`Re£t
+();
+
+237 
+ªad_ch¨
+ = 
+f1
+.
+	`Ród
+(300, 
+buf1
+);
+
+238 
+C⁄sﬁe
+::
+	`puts
+("\nRead ");
+
+239 
+C⁄sﬁe
+::
+	`puti
+(
+ªad_ch¨
+);
+
+240 
+C⁄sﬁe
+::
+	`puts
+(" characters\n");
+
+241 
+C⁄sﬁe
+::
+	`puts
+("...Read data = ");
+
+242 
+i
+ = 0; i < 200; i++)
+
+244 
+C⁄sﬁe
+::
+	`putch
+(
+buf1
+[
+i
+]);
+
+249 
 	}
 }
 
-173 
+257 
 Thªad
  * 
 	gthªad1
 ;
 
-174 
+258 
 Thªad
  * 
 	gthªad2
 ;
 
-175 
+259 
 Thªad
  * 
 	gthªad3
 ;
 
-176 
+260 
 Thªad
  * 
 	gthªad4
 ;
 
-178 
+262 
 	$fun1
 () {
 
-179 
+263 
 C⁄sﬁe
 ::
 	`puts
@@ -4583,17 +6673,17 @@ Thªad
 	`ThªadId
 ()); Console::puts("\n");
 
-181 
+265 
 C⁄sﬁe
 ::
 	`puts
 ("FUN 1 INVOKED!\n");
 
-183 
+267 
 j
  = 0;; j++) {
 
-185 
+269 
 C⁄sﬁe
 ::
 	`puts
@@ -4603,11 +6693,11 @@ C⁄sﬁe
 j
 ); Console::puts("]\n");
 
-187 
+271 
 i
  = 0; i < 10; i++) {
 
-188 
+272 
 C⁄sﬁe
 ::
 	`puts
@@ -4617,21 +6707,21 @@ C⁄sﬁe
 i
 ); Console::puts("]\n");
 
-191 
+275 
 	`∑ss_⁄_CPU
 (
 thªad2
 );
 
-193 
+277 
 	}
 }
 
-197 
+281 
 	$fun2
 () {
 
-198 
+282 
 C⁄sﬁe
 ::
 	`puts
@@ -4645,33 +6735,33 @@ Thªad
 	`ThªadId
 ()); Console::puts("\n");
 
-200 
+284 
 C⁄sﬁe
 ::
 	`puts
 ("FUN 2 INVOKED!\n");
 
-202 #ifde‡
+286 #ifde‡
 _USES_DISK_
 
 
-203 
+287 
 buf
 [512];
 
-204 
+288 
 ªad_block
  = 1;
 
-205 
+289 
 wrôe_block
  = 0;
 
-208 
+292 
 j
  = 0;; j++) {
 
-210 
+294 
 C⁄sﬁe
 ::
 	`puts
@@ -4681,17 +6771,17 @@ C⁄sﬁe
 j
 ); Console::puts("]\n");
 
-212 #ifde‡
+296 #ifde‡
 _USES_DISK_
 
 
-214 
+298 
 C⁄sﬁe
 ::
 	`puts
 ("Readingá block from disk...\n");
 
-216 
+300 
 SYSTEM_DISK
 ->
 	`ªad
@@ -4701,15 +6791,21 @@ SYSTEM_DISK
 buf
 );
 
-219 
+303 
 i
 ;
 
-220 
+304 
+C⁄sﬁe
+::
+	`puts
+("Read data = ");
+
+305 
 i
  = 0; i < 512; i++) {
 
-221 
+306 
 C⁄sﬁe
 ::
 	`putch
@@ -4719,31 +6815,57 @@ buf
 i
 ]);
 
-224 #i‚de‡
+308 
+C⁄sﬁe
+::
+	`puts
+("\n");
+
+310 
+k
+ = 0; k < 512; k++)
+
+312 
+buf
+[
+k
+] = 'A' + k % 20;
+
+314 #i‚de‡
 _USES_FILESYSTEM_
 
 
-229 
+319 
 C⁄sﬁe
 ::
 	`puts
 ("Writingá blockÅo disk...\n");
 
-235 
+321 
+SYSTEM_DISK
+->
+	`wrôe
+(
+wrôe_block
+, 
+buf
+);
+
+325 
 wrôe_block
  = 
 ªad_block
 ;
 
-236 
+326 
 ªad_block
  = (read_block + 1) % 10;
 
-239 
+329 
 i
  = 0; i < 10; i++) {
 
-240 
+330 
 C⁄sﬁe
 ::
 	`puts
@@ -4753,21 +6875,21 @@ C⁄sﬁe
 i
 ); Console::puts("]\n");
 
-246 
+336 
 	`∑ss_⁄_CPU
 (
 thªad3
 );
 
-248 
+338 
 	}
 }
 
-250 
+340 
 	$fun3
 () {
 
-251 
+341 
 C⁄sﬁe
 ::
 	`puts
@@ -4781,27 +6903,29 @@ Thªad
 	`ThªadId
 ()); Console::puts("\n");
 
-253 
+343 
 C⁄sﬁe
 ::
 	`puts
 ("FUN 3 INVOKED!\n");
 
-255 #ifde‡
+345 #ifde‡
 _USES_FILESYSTEM_
 
 
-257 
+347 
 	`exîci£_fûe_sy°em
 (
 FILE_SYSTEM
+, 
+SYSTEM_DISK
 );
 
-261 
+351 
 j
  = 0;; j++) {
 
-263 
+353 
 C⁄sﬁe
 ::
 	`puts
@@ -4811,11 +6935,11 @@ C⁄sﬁe
 j
 ); Console::puts("]\n");
 
-265 
+355 
 i
  = 0; i < 10; i++) {
 
-266 
+356 
 C⁄sﬁe
 ::
 	`puts
@@ -4825,21 +6949,21 @@ C⁄sﬁe
 i
 ); Console::puts("]\n");
 
-270 
+360 
 	`∑ss_⁄_CPU
 (
 thªad4
 );
 
-272 
+362 
 	}
 }
 
-274 
+364 
 	$fun4
 () {
 
-275 
+365 
 C⁄sﬁe
 ::
 	`puts
@@ -4853,11 +6977,11 @@ Thªad
 	`ThªadId
 ()); Console::puts("\n");
 
-277 
+367 
 j
  = 0;; j++) {
 
-279 
+369 
 C⁄sﬁe
 ::
 	`puts
@@ -4867,11 +6991,11 @@ C⁄sﬁe
 j
 ); Console::puts("]\n");
 
-281 
+371 
 i
  = 0; i < 10; i++) {
 
-282 
+372 
 C⁄sﬁe
 ::
 	`puts
@@ -4881,29 +7005,29 @@ C⁄sﬁe
 i
 ); Console::puts("]\n");
 
-285 
+375 
 	`∑ss_⁄_CPU
 (
 thªad1
 );
 
-287 
+377 
 	}
 }
 
-293 #ifde‡
+383 #ifde‡
 MSDOS
 
 
-294 
+384 
 	tsize_t
 ;
 
-296 
+386 
 	tsize_t
 ;
 
-300 * 
+390 * 
 ›î©‹
  
 	$√w
@@ -4913,7 +7037,7 @@ size_t
 size
 ) {
 
-301 
+391 
 a
  = 
 MEMORY_POOL
@@ -4923,15 +7047,15 @@ MEMORY_POOL
 size
 );
 
-302  (*)
+392  (*)
 a
 ;
 
-303 
+393 
 	}
 }
 
-306 * 
+396 * 
 ›î©‹
  
 	g√w
@@ -4941,7 +7065,7 @@ size_t
 	gsize
 ) {
 
-307 
+397 
 	ga
  = 
 MEMORY_POOL
@@ -4951,11 +7075,11 @@ MEMORY_POOL
 size
 );
 
-308  (*)
+398  (*)
 	ga
 ;
 
-312 
+402 
 ›î©‹
  
 	$dñëe
@@ -4963,7 +7087,7 @@ size
 p
 ) {
 
-313 
+403 
 MEMORY_POOL
 ->
 	`ªÀa£
@@ -4971,11 +7095,11 @@ MEMORY_POOL
 p
 );
 
-314 
+404 
 	}
 }
 
-317 
+407 
 ›î©‹
  
 	gdñëe
@@ -4983,7 +7107,7 @@ p
 	gp
 ) {
 
-318 
+408 
 	gMEMORY_POOL
 ->
 ªÀa£
@@ -4991,47 +7115,47 @@ p
 p
 );
 
-325 
+415 
 	$maö
 () {
 
-327 
+417 
 GDT
 ::
 	`öô
 ();
 
-328 
+418 
 C⁄sﬁe
 ::
 	`öô
 ();
 
-329 
+419 
 IDT
 ::
 	`öô
 ();
 
-330 
+420 
 Ex˚±i⁄H™dÀr
 ::
 	`öô_di•©chî
 ();
 
-331 
+421 
 IRQ
 ::
 	`öô
 ();
 
-332 
+422 
 I¡îru±H™dÀr
 ::
 	`öô_di•©chî
 ();
 
-336 ˛as†
+426 ˛as†
 	cDBZ_H™dÀr
  : 
 public
@@ -5039,11 +7163,11 @@ public
 Ex˚±i⁄H™dÀr
  {
 
-337 
+427 
 public
 :
 
-338 
+428 
 vútuÆ
  
 	`h™dÀ_ex˚±i⁄
@@ -5053,19 +7177,19 @@ REGS
 _ªgs
 ) {
 
-339 
+429 
 C⁄sﬁe
 ::
 	`puts
 ("DIVISION BY ZERO!\n");
 
-342 
+432 
 	}
 } 
 	gdbz_h™dÀr
 ;
 
-344 
+434 
 	gEx˚±i⁄H™dÀr
 ::
 ªgi°î_h™dÀr
@@ -5073,19 +7197,19 @@ C⁄sﬁe
 dbz_h™dÀr
 );
 
-352 
+442 
 FømePoﬁ
  
 	gsy°em_‰ame_poﬁ
 ;
 
-353 
+443 
 	gSYSTEM_FRAME_POOL
  = &
 sy°em_‰ame_poﬁ
 ;
 
-356 
+446 
 MemPoﬁ
  
 mem‹y_poﬁ
@@ -5093,19 +7217,19 @@ mem‹y_poﬁ
 SYSTEM_FRAME_POOL
 , 256);
 
-357 
+447 
 	gMEMORY_POOL
  = &
 mem‹y_poﬁ
 ;
 
-365 
+455 
 Sim∂eTimî
  
 timî
 (100);
 
-366 
+456 
 	gI¡îru±H™dÀr
 ::
 ªgi°î_h™dÀr
@@ -5113,81 +7237,81 @@ timî
 timî
 );
 
-369 #ifde‡
+459 #ifde‡
 _USES_SCHEDULER_
 
 
-373 
+463 
 ScheduÀr
  
 	gsy°em_scheduÀr
  = Scheduler();
 
-374 
+464 
 	gSYSTEM_SCHEDULER
  = &
 sy°em_scheduÀr
 ;
 
-378 #ifde‡
+468 #ifde‡
 _USES_DISK_
 
 
-383 
-BlockögDisk
+473 
+Sim∂eDisk
  
 	gsy°em_disk
- = BlockögDisk(
+ = Sim∂eDisk(
 MASTER
 , 
 SYSTEM_DISK_SIZE
 );
 
-384 
+474 
 	gSYSTEM_DISK
  = &
 sy°em_disk
 ;
 
-388 #ifde‡
+478 #ifde‡
 _USES_FILESYSTEM_
 
 
-392 
+482 
 FûeSy°em
  
 	gfûe_sy°em
  = FileSystem();
 
-393 
+483 
 	gFILE_SYSTEM
  = &
 fûe_sy°em
 ;
 
-405 
+495 
 machöe_íabÀ_öãºu±s
 ();
 
-409 
+499 
 	gC⁄sﬁe
 ::
 puts
 ("Hello World!\n");
 
-413 
+503 
 	gC⁄sﬁe
 ::
 puts
 ("CREATING THREAD 1...\n");
 
-414 * 
+504 * 
 	g°ack1
  = 
 √w
  [1024];
 
-415 
+505 
 	gthªad1
  = 
 √w
@@ -5199,25 +7323,25 @@ fun1
 °ack1
 , 1024);
 
-416 
+506 
 	gC⁄sﬁe
 ::
 puts
 ("DONE\n");
 
-418 
+508 
 	gC⁄sﬁe
 ::
 puts
 ("CREATING THREAD 2...");
 
-419 * 
+509 * 
 	g°ack2
  = 
 √w
  [1024];
 
-420 
+510 
 	gthªad2
  = 
 √w
@@ -5229,25 +7353,25 @@ fun2
 °ack2
 , 1024);
 
-421 
+511 
 	gC⁄sﬁe
 ::
 puts
 ("DONE\n");
 
-423 
+513 
 	gC⁄sﬁe
 ::
 puts
 ("CREATING THREAD 3...");
 
-424 * 
+514 * 
 	g°ack3
  = 
 √w
  [1024];
 
-425 
+515 
 	gthªad3
  = 
 √w
@@ -5259,25 +7383,25 @@ fun3
 °ack3
 , 1024);
 
-426 
+516 
 	gC⁄sﬁe
 ::
 puts
 ("DONE\n");
 
-428 
+518 
 	gC⁄sﬁe
 ::
 puts
 ("CREATING THREAD 4...");
 
-429 * 
+519 * 
 	g°ack4
  = 
 √w
  [1024];
 
-430 
+520 
 	gthªad4
  = 
 √w
@@ -5289,17 +7413,17 @@ fun4
 °ack4
 , 1024);
 
-431 
+521 
 	gC⁄sﬁe
 ::
 puts
 ("DONE\n");
 
-433 #ifde‡
+523 #ifde‡
 _USES_SCHEDULER_
 
 
-437 
+527 
 	gSYSTEM_SCHEDULER
 ->
 add
@@ -5307,7 +7431,7 @@ add
 thªad2
 );
 
-438 
+528 
 	gSYSTEM_SCHEDULER
 ->
 add
@@ -5315,7 +7439,7 @@ add
 thªad3
 );
 
-439 
+529 
 	gSYSTEM_SCHEDULER
 ->
 add
@@ -5323,13 +7447,13 @@ add
 thªad4
 );
 
-445 
+535 
 	gC⁄sﬁe
 ::
 puts
 ("STARTING THREAD 1 ...\n");
 
-446 
+536 
 	gThªad
 ::
 di•©ch_to
@@ -5337,7 +7461,7 @@ di•©ch_to
 thªad1
 );
 
-450 
+540 
 as£π
 (
 FALSE
@@ -5848,12 +7972,6 @@ _buf
 ) {
 
 78 
-C⁄sﬁe
-::
-	`puts
-("Simple DiskÑead\n");
-
-79 
 	`issue_›î©i⁄
 (
 READ
@@ -5861,29 +7979,29 @@ READ
 _block_no
 );
 
-81 
+80 
 	`waô_u¡û_ªady
 ();
 
-84 
+83 
 i
 ;
 
-85 
+84 
 tmpw
 ;
 
-86 
+85 
 i
  = 0; i < 256; i++) {
 
-87 
+86 
 tmpw
  = 
 	`öp‹tw
 (0x1F0);
 
-88 
+87 
 _buf
 [
 i
@@ -5891,7 +8009,7 @@ i
 tmpw
 ;
 
-89 
+88 
 _buf
 [
 i
@@ -5899,11 +8017,11 @@ i
 tmpw
  >> 8);
 
-91 
+90 
 	}
 }
 
-93 
+92 
 	gSim∂eDisk
 ::
 	$wrôe
@@ -5914,12 +8032,6 @@ _buf
 ) {
 
 95 
-C⁄sﬁe
-::
-	`puts
-("Simple disk write\n");
-
-96 
 	`issue_›î©i⁄
 (
 WRITE
@@ -5927,23 +8039,23 @@ WRITE
 _block_no
 );
 
-98 
+97 
 	`waô_u¡û_ªady
 ();
 
-101 
+100 
 i
 ;
 
-102 
+101 
 tmpw
 ;
 
-103 
+102 
 i
  = 0; i < 256; i++) {
 
-104 
+103 
 tmpw
  = 
 _buf
@@ -5951,13 +8063,13 @@ _buf
 i
 ] | (_buf[2*i+1] << 8);
 
-105 
+104 
 	`ouç‹tw
 (0x1F0, 
 tmpw
 );
 
-108 
+107 
 	}
 }
 
@@ -7368,8 +9480,8 @@ _d©a
 .
 1
 /usr/include
-35
-379
+36
+393
 Scheduler.C
 Scheduler.H
 assert.C
@@ -7380,6 +9492,7 @@ console.C
 console.H
 exceptions.C
 exceptions.H
+file_system.C
 file_system.H
 frame_pool.C
 frame_pool.H

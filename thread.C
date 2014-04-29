@@ -210,3 +210,4 @@ Thread * Thread::CurrentThread() {
 /* Return the currently running thread. */
     return current_thread;
 }
+

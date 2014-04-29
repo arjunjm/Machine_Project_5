@@ -33,7 +33,7 @@
    Leave the macro undefined if you don't want to exercise the disk code.
 */
 
-//#define _USES_FILESYSTEM_
+#define _USES_FILESYSTEM_
 /* This macro is defined when we want to exercise file-system code.
    If defined, the system defines a file system, and Thread 3 issues 
    issues operations to it.
@@ -148,8 +148,8 @@ void pass_on_CPU(Thread * _to_thread) {
 
 #ifdef _USES_FILESYSTEM_
 
+/*
 int rand() {
-  /* Rather silly random number generator. */
 
   unsigned long dummy_sec;
   int           dummy_tic;
@@ -158,27 +158,27 @@ int rand() {
 
   return dummy_tic;
 }
+*/
 
 void exercise_file_system(FileSystem * _file_system, SimpleDisk * _simple_disk) {
   /* NOTHING FOR NOW. 
      FEEL FREE TO ADD YOUR OWN CODE. */
+
     Console::puts("Initializing file system\n");
     FileSystem *fs = _file_system;
-    //BlockingDisk *disk = _simple_disk;
+
     SimpleDisk system_disk = SimpleDisk(MASTER, SYSTEM_DISK_SIZE);
     SimpleDisk *disk = &system_disk;
 
-    char temp_buffer[205];
-    char buf1[500];
+    char temp_buffer[1024];
+    char read_buf[1024];
     int written_char;
-    temp_buffer[0] = 'A';
-    temp_buffer[1] = 'r';
-    temp_buffer[2] = 'J';
-    temp_buffer[3] = 'U';
-    for (int i = 4; i < 200; i++)
-        temp_buffer[i] = '*';
+    for (int i = 0; i < 1024; i++)
+        temp_buffer[i] = 'X';
 
     unsigned int fs_size = BLOCK_SIZE * 1000;
+
+    /* MOUNT TEST */
     if (fs->Mount(disk) == TRUE)
     {
         Console::puts("Mount successful\n");
@@ -189,6 +189,7 @@ void exercise_file_system(FileSystem * _file_system, SimpleDisk * _simple_disk) 
         return;
     }
     
+    /* FORMAT TEST */
     if (fs->Format(disk, fs_size) == TRUE)
     {
         Console::puts("Format successful\n");
@@ -198,55 +199,92 @@ void exercise_file_system(FileSystem * _file_system, SimpleDisk * _simple_disk) 
         Console::puts("Format unsuccessful\n");
     }
 
+    /* CREATE FILE TEST */
     if(fs->CreateFile(1) == TRUE)
     {
         Console::puts("File 1 created successfully\n");
     }
 
     File f1 = File();
+
+    /* FILE LOOKUP TEST */
     if(fs->LookupFile(1, &f1) == TRUE)
     {
-        Console::puts("File lookup for file 1 successful\n");
+        Console::puts("File 1 exists in the file system\n");
     }
     else
     {
         Console::puts("File lookup for file 1 failed\n");
     }
-    Console::puts("Going to write\n");
-    written_char = f1.Write(100, temp_buffer);
 
+    /* WRITE TEST */
+    Console::puts("Write tests\n");
+    Console::puts("Writing 700 bytes of characters into file-1\n");
+    written_char = f1.Write(700, temp_buffer);
+
+    Console::puts("File write successful!!\n");
     Console::puts("Wrote ");
     Console::puti(written_char);
-    Console::puts(" characters into the disk\n");
+    Console::puts(" characters into file-1\n");
 
-    int read_char = f1.Read(300, buf1);
+    /* READ TEST */
+    int read_char = f1.Read(700, read_buf);
     Console::puts("Read ");
     Console::puti(read_char);
-    Console::puts(" characters\n");
-    Console::puts("...Read data = ");
-    for(int i = 0; i < 100; i++)
+    Console::puts(" characters from file-1\n");
+    Console::puts("Read data = ");
+    for(int i = 0; i < 1000; i++)
     {
-        Console::putch(buf1[i]);
+        Console::putch(read_buf[i]);
     }
 
+    /* FILE ATTRIBUTES */
+    Console::puts("File Attributes\n");
+    Console::puts("===============");
+    f1.PrintFileAttributes();
+
+#if 0
     temp_buffer[0] = 'C';
     f1.Write(100, temp_buffer);
 
+    /* RESET TEST */
     Console::puts("\nResetting current position to the start of file\n");
     f1.Reset();
 
-    read_char = f1.Read(300, buf1);
+    read_char = f1.Read(300, read_buf);
     Console::puts("\nRead ");
     Console::puti(read_char);
     Console::puts(" characters\n");
     Console::puts("...Read data = ");
     for(int i = 0; i < 200; i++)
     {
-        Console::putch(buf1[i]);
+        Console::putch(read_buf[i]);
     }
 
+    /* REWRITE TEST */
+    f1.Rewrite();
+#endif 
 
-   // for(;;);
+    /* DELETE TEST */
+    if (fs->DeleteFile(1) == TRUE)
+    {
+        Console::puts("Deleted file-1 successfully from the file system\n");
+    }
+    else
+    {
+        Console::puts("Deleteion failed!\n");
+    }
+
+    /* LOOKUP AFTER DELETE SHOULD FAIL */
+    Console::puts("Looking up file-1 in the file system\n");
+    if (fs->LookupFile(1, &f1) == FALSE)
+    {
+        Console::puts("Lookup of file-1 failed! Deletion was successful!\n");
+    }
+    else
+    {
+        Console::puts("File-1 still present in the INode tables. Deletion did not succeed!\n");
+    }
 }
 
 #endif
@@ -308,14 +346,19 @@ void fun2() {
        }
        Console::puts("\n");
 
-       for (int k = 0; k < 512; k++)
-       {
-           buf[k] = 'A' + k % 20;
-       }
 #ifndef _USES_FILESYSTEM_
        /* -- Write -- ONLY IF THERE IS NO FILE SYSTEM BEING EXERCISED! */
        /*             Running this piece of code on a disk with a      */
        /*             file system would corrupt the file system.       */
+
+       /* Writing random data into the blocks for testing purposes.
+        * The characters which are written will be displayed eventually 
+        * when this thread executes.
+        */
+       for (int k = 0; k < 512; k++)
+       {
+           buf[k] = 'A' + k % 20;
+       }
 
        Console::puts("Writing a block to disk...\n");
        /* UNCOMMENT THE FOLLOWING LINE IN FINAL VERSION. */
@@ -345,20 +388,28 @@ void fun3() {
 
 #ifdef _USES_FILESYSTEM_
     exercise_file_system(FILE_SYSTEM, SYSTEM_DISK);
+    for(;;);
+    for(int j = 0;; j++) {
+
+        for (int i = 0; i < 10; i++) {
+        }
+
+        pass_on_CPU(thread4);
+    } 
+
 #else
 
-     for(int j = 0;; j++) {
+    for(int j = 0;; j++) {
 
-       Console::puts("FUN 3 IN BURST["); Console::puti(j); Console::puts("]\n");
+        Console::puts("FUN 3 IN BURST["); Console::puti(j); Console::puts("]\n");
 
-       for (int i = 0; i < 10; i++) {
-	  Console::puts("FUN 3: TICK ["); Console::puti(i); Console::puts("]\n");
-       }
+        for (int i = 0; i < 10; i++) {
+            Console::puts("FUN 3: TICK ["); Console::puti(i); Console::puts("]\n");
+        }
 
-       pass_on_CPU(thread4);
-     } 
+        pass_on_CPU(thread4);
+    } 
 #endif
-    pass_on_CPU(thread4);
 }
 
 void fun4() {

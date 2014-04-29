@@ -48,6 +48,7 @@ unsigned int File::Read(unsigned int n, char * buffer)
             {
                 return number_of_char_read;
             }
+            file_blocks = file_system->GetFileBlocks(file_id);
             current_block = file_blocks[current_block_index - 1];
             file_system->disk->read(current_block, block_data);
         }
@@ -67,7 +68,6 @@ unsigned int File::Write(unsigned int n, char * buffer)
     int position  = current_position; 
     int block_to_write = current_block;
     int char_written = 0;
-    int number_of_new_blocks = 0;
     char curr_block_data[BLOCK_SIZE];
     file_system->disk->read(block_to_write, curr_block_data);
     while (char_written < n || buffer[char_written] == '\0')
@@ -77,14 +77,17 @@ unsigned int File::Write(unsigned int n, char * buffer)
         char_written++;
         if(position >= BLOCK_SIZE)
         {
-            number_of_new_blocks++;
+            position = 0;
             file_system->disk->write(block_to_write, curr_block_data);
-            //TODO
-            //update block_to_write by calling getnewblocknumber
-            //update inode
+            int new_block_number = file_system->GetFreeBlockNumber(); 
+            file_system->UpdateINodeWithNewBlockNumber(file_id, new_block_number);
+            file_system->UpdateINodeWithNewFileSize(this, file_id, BLOCK_SIZE - current_position); 
+            block_to_write = new_block_number;
+            file_system->disk->read(block_to_write, curr_block_data);
         }
     }
 
+    file_system->UpdateINodeWithNewFileSize(this, file_id, position); 
     // indicates EOF
     curr_block_data[position++] = -1;
     file_system->disk->write(block_to_write, curr_block_data);
@@ -132,10 +135,15 @@ BOOLEAN File::EoF()
 
 void File::PrintFileAttributes()
 {
+
+    Console::puts("\nFile ID: ");
+    Console::puti(file_id);
     Console::puts("\n");
-    Console::puts("Current Position : ");
-    Console::puti(current_position);
+
+    Console::puts("File Size : ");
+    Console::puti(file_size);
     Console::puts("\n");
+
 
     Console::puts("Starting Block : ");
     Console::puti(starting_block);
@@ -145,17 +153,9 @@ void File::PrintFileAttributes()
     Console::puti(current_block);
     Console::puts("\n");
 
-    Console::puts("File Size : ");
-    Console::puti(file_size);
-    Console::puts("\n");
-
-    Console::puts("File ID: ");
-    Console::puti(file_id);
-    Console::puts("\n");
-
-    Console::puts("Current Block Index: ");
-    Console::puti(current_block_index);
-    Console::puts("\n");
+    Console::puts("Current Position : ");
+    Console::puti(current_position);
+    Console::puts("\n\n");
 
 }
 /*
@@ -401,4 +401,45 @@ unsigned int* FileSystem::GetFileBlocks(int file_id)
     }
     return NULL;
    
+}
+
+void FileSystem::UpdateINodeWithNewBlockNumber(int file_id, int block_no)
+{
+    char buffer[BLOCK_SIZE];
+    for (int i = 0; i < inode_mgmt_blocks; i++)
+    {
+        disk->read(i, buffer);
+        INode_T *inode_list = (INode_T*) buffer;
+        int number_of_inodes_in_list = BLOCK_SIZE/sizeof(INode_T);
+        for (int j = 0; j < number_of_inodes_in_list; j++)
+        {
+            if (inode_list[j].file_id == file_id)
+            {
+                inode_list[j].number_of_blocks_used++;
+                inode_list[j].block_no[inode_list[j].number_of_blocks_used] = block_no;
+                disk->write(i, buffer);
+            }
+        }
+    }
+}
+
+
+void FileSystem::UpdateINodeWithNewFileSize(File *_file, int file_id, int file_size_increase)
+{
+    char buffer[BLOCK_SIZE];
+    for (int i = 0; i < inode_mgmt_blocks; i++)
+    {
+        disk->read(i, buffer);
+        INode_T *inode_list = (INode_T*) buffer;
+        int number_of_inodes_in_list = BLOCK_SIZE/sizeof(INode_T);
+        for (int j = 0; j < number_of_inodes_in_list; j++)
+        {
+            if (inode_list[j].file_id == file_id)
+            {
+                inode_list[j].file_size += file_size_increase;
+                _file->file_size = inode_list[j].file_size;
+                disk->write(i, buffer);
+            }
+        }
+    }
 }

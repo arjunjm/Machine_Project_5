@@ -163,6 +163,11 @@ public:
    // Returns the array with the block numbers of the file if the file is found
    // Returns NULL otherwise
    unsigned int* GetFileBlocks(int _file_id);
+
+   // Update INODE with new block number
+   void UpdateINodeWithNewBlockNumber(int file_id, int block_no);
    
+   // Update INODE with new file size
+   void UpdateINodeWithNewFileSize(File *_file, int file_id, int file_size_increase);
 };
 #endif

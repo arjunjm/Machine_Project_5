@@ -99,7 +99,7 @@ void BlockingDisk::pop()
 {
     if (thread_count == 0)
     {
-        //Console::puts("No blocked thread in queue \n");
+        Console::puts("No blocked thread in queue \n");
         return;
     }
     thread_queue[front_index] = NULL;

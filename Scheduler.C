@@ -17,6 +17,7 @@ Scheduler::Scheduler()
 
 void Scheduler::yield()
 {
+   static int tempcount = 0;
    if((front_index == next_index) && (ready_Queue[front_index] == NULL))
    {
        Console::puts("\nReady Queue is empty\n");
@@ -24,6 +25,7 @@ void Scheduler::yield()
    else
    {
        Thread *ready_thread = ready_Queue[front_index];
+       Console::puts("\n");
        if(ready_thread != NULL)
        {
            threadInfoStructT **blocked_thread_queue = SYSTEM_DISK->get_blocked_thread_queue();
@@ -41,6 +43,7 @@ void Scheduler::yield()
                 }*/
                 if (thread == ready_thread)
                 {
+                    
                    if (SYSTEM_DISK->is_device_ready())
                    {
                        if (thread_oper == READ)
@@ -60,6 +63,7 @@ void Scheduler::yield()
                 }
                 
            }
+
            Thread::dispatch_to(ready_thread);
            front_index = (front_index +1 ) % MAX_QUEUE_SIZE;
        }
